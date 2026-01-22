@@ -14,11 +14,7 @@ public static class CreateStackProjectFolders
 		CreateFolder(root, "02_Scripts");
 		CreateFolder(root, "03_Prefabs");
 		CreateFolder(root, "04_Materials");
-		CreateFolder(root, "05_Shaders");
-		CreateFolder(root, "06_Textures");
-		CreateFolder(root, "07_Audio");
-		CreateFolder(root, "08_UI");
-		CreateFolder(root, "99_Settings");
+		CreateFolder(root, "05_Audio");
 
 		// Scripts 하위
 		CreateFolder($"{root}/02_Scripts", "Core");
@@ -37,13 +33,9 @@ public static class CreateStackProjectFolders
 		CreateFolder($"{root}/04_Materials", "Block");
 		CreateFolder($"{root}/04_Materials", "Background");
 
-		// Shaders 하위
-		CreateFolder($"{root}/05_Shaders", "Block");
-		CreateFolder($"{root}/05_Shaders", "Background");
-
 		// Audio 하위
-		CreateFolder($"{root}/07_Audio", "SFX");
-		CreateFolder($"{root}/07_Audio", "BGM");
+		CreateFolder($"{root}/05_Audio", "SFX");
+		CreateFolder($"{root}/05_Audio", "BGM");
 
 		AssetDatabase.Refresh();
 		Debug.Log("✅ Stack 프로젝트 폴더 구조 생성 완료");
