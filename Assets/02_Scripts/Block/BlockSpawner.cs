@@ -19,6 +19,7 @@ public class BlockSpawner : MonoBehaviour
 		SpawnBlock();
 	}
 
+	// 클릭 이벤트 구독 및 해제
 	private void OnEnable()
 	{
 		InputManager.OnClick += SpawnBlock;

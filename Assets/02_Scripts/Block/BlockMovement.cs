@@ -6,9 +6,7 @@ public class BlockMovement : MonoBehaviour
 	[SerializeField] float speed = 2.5f;
 	// 이동 거리
 	[SerializeField] float distance = 1.25f;
-
 	Vector3 movingAxisVector = Vector3.forward;
-
 	float direction = -1f;
 	float timer = 0f;
 
