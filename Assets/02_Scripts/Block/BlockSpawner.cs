@@ -34,7 +34,7 @@ public class BlockSpawner : MonoBehaviour
 	{
 		// 기존 블록 비활성화
 		if (currentBlock)
-			currentBlock.enabled = false;
+			currentBlock.Stop();
 
 		// 새 블록 생성 및 초기화
 		currentBlock = Instantiate(blockPrefab, transform);
