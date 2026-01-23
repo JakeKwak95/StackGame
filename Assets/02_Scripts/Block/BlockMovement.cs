@@ -48,6 +48,16 @@ public class BlockMovement : MonoBehaviour
 		// 1. CubeScale 업데이트
 		UpdateCubeScale(isAxisZ, missAmount);
 
+		// 게임 오버 시 아래 로직 실행을 억제하기 위해 Stop 메서드에서 체크
+		if (UtilClass.CubeScale.x <= 0f || UtilClass.CubeScale.z <= 0f)
+		{
+			// 게임 오버 처리
+			GameManager.Instance.GameOver();
+			return;
+		}
+		// 점수 추가
+		GameManager.Instance.AddScore();
+
 		// 2. Scale 오프셋 계산
 		Vector3 offsetByScale = CalculateScaleOffset(isAxisZ, missAmount, offsetSign);
 

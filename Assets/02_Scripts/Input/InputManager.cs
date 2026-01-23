@@ -4,11 +4,25 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
+	public static InputManager Instance { get; private set; }
+
 	// 클릭 입력 액션 레퍼런스
 	[SerializeField] InputActionReference clickInput;
 
 	// 클릭 이벤트 델리게이트
 	public static Action OnClick;
+
+	private void Awake()
+	{
+		if (Instance == null)
+		{
+			Instance = this;
+		}
+		else
+		{
+			Destroy(gameObject);
+		}
+	}
 
 	// 구독 및 구독 해제
 	private void OnEnable()
