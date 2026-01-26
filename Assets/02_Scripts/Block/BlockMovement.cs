@@ -151,6 +151,9 @@ public class BlockMovement : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		if(GameManager.Instance.CurrentState != GameState.Playing)
+			return;
+
 		// direction 방향으로 이동
 		transform.Translate(direction * speed * Time.fixedDeltaTime * movingAxisVector);
 

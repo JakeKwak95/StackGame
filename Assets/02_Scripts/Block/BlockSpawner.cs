@@ -13,12 +13,6 @@ public class BlockSpawner : MonoBehaviour
 	// 현재 이동 축
 	Vector3 movingAxis = Vector3.forward;
 
-	// 최초 실행 시 블록 생성
-	private void Awake()
-	{
-		SpawnBlock();
-	}
-
 	// 클릭 이벤트 구독 및 해제
 	private void OnEnable()
 	{

@@ -1,5 +1,12 @@
+using System;
 using TMPro;
 using UnityEngine;
+
+public enum GameState
+{
+	Playing,
+	GameOver
+}
 
 public class GameManager : MonoBehaviour
 {
@@ -12,6 +19,10 @@ public class GameManager : MonoBehaviour
 		Score++;
 		scoreText.SetText(Score.ToString());
 	}
+
+	public GameState CurrentState { get; private set; } = GameState.Playing;
+	public static Action OnGameOver;
+
 
 	private void Awake()
 	{
@@ -27,8 +38,10 @@ public class GameManager : MonoBehaviour
 
 	public void GameOver()
 	{
+		OnGameOver?.Invoke();
+
 		Debug.Log("Game Over! Final Score: " + Score);
-		Time.timeScale = 0f;
+		CurrentState = GameState.GameOver;
 		InputManager.Instance.enabled = false;
 	}
 }
