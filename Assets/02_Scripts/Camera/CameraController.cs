@@ -12,10 +12,16 @@ public class CameraController : MonoBehaviour
 	// 타겟 위치까지 걸리는 시간
 	[SerializeField] float timeToMove = 0.25f;
 
+	// 이동 중인지 여부
 	bool isBusy = false;
 
+	// 게임 오버 시 줌 아웃 시간
 	[SerializeField] float zoomOutTime = 0.5f;
 	[SerializeField] CinemachineTargetGroup cinemachineTargetGroup;
+
+	// 무시할 업 카운트
+	[SerializeField] int ignoreAmount = 3;
+	int upCount = 0;
 
 	private void OnEnable()
 	{
@@ -32,6 +38,13 @@ public class CameraController : MonoBehaviour
 
 	private void UpdateTargetPos()
 	{
+		// 무시할 업 카운트 처리
+		if (upCount < ignoreAmount)
+		{
+			upCount++;
+			return;
+		}
+
 		// 이미 이동 중이면 즉시 위치 설정
 		if (isBusy)
 		{

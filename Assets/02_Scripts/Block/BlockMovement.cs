@@ -10,6 +10,14 @@ public class BlockMovement : MonoBehaviour
 	float direction = -1f;
 	float timer = 0f;
 
+	// 렌더러 및 머티리얼 프로퍼티 블록
+	Renderer renderer;
+	// 프로퍼티 블록이란
+	// 동일한 머티리얼을 사용하는 여러 오브젝트에 대해 개별적인 머티리얼 속성(색상, 텍스처 등)을 설정할 수 있게 해주는 기능
+	// 이를 통해 메모리 사용을 최적화하고 성능을 향상시킬 수 있음
+	// 각각 메테리얼 생성 시 메모리 낭비가 심해지기 때문
+	MaterialPropertyBlock propertyBlock;
+
 	public void Init(int index, Vector3 axis)
 	{
 		// 이동 축 설정
@@ -35,12 +43,33 @@ public class BlockMovement : MonoBehaviour
 
 		// 스케일 적용
 		transform.localScale = UtilClass.CubeScale;
+
+		// 머티리얼 프로퍼티 블록 설정
+		SetupPropertyBlock(index);
+	}
+
+	private void SetupPropertyBlock(int index)
+	{
+		// 색상 오프셋 설정
+		TryGetComponent(out renderer);
+		// 머티리얼 프로퍼티 블록 생성 및 설정
+		propertyBlock = new MaterialPropertyBlock();
+		// 색상 오프셋 설정
+		propertyBlock.SetFloat("_Offset", (index + 1) * UtilClass.HueShiftAmount);
+		// 머티리얼 프로퍼티 블록 적용
+		renderer.SetPropertyBlock(propertyBlock);
 	}
 
 	public void Stop()
 	{
 		bool isAxisZ = movingAxisVector == Vector3.forward;
 		float missAmount = UtilClass.GetMissAmount(transform.position);
+
+		if (UtilClass.IsPerfectAlignment(isAxisZ, missAmount))
+		{
+			missAmount = 0f;
+			ObjectPoolManager.Instance.GetPerfectEffect();
+		}
 
 		// 절반을 넘었는지 체크
 		int offsetSign = GetOffsetSign(isAxisZ);
@@ -90,9 +119,12 @@ public class BlockMovement : MonoBehaviour
 
 	private void MakeMissedPart(bool isAxisZ, float missAmount, int offsetSign)
 	{
+		// 잘려나갈 부분이 없으면 종료
+		if (missAmount <= 0f)
+			return;
+
 		// 잘려나갈 블록 부분 생성
-		GameObject newCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-		newCube.AddComponent<Rigidbody>();
+		MissedPart newCube = ObjectPoolManager.Instance.GetMissedPart();
 
 		Vector3 newPos = UtilClass.WorldOrigin;
 		Vector3 newScale = UtilClass.CubeScale;
@@ -107,8 +139,7 @@ public class BlockMovement : MonoBehaviour
 			newScale.x = missAmount;
 		}
 
-		newCube.transform.position = newPos;
-		newCube.transform.localScale = newScale;
+		newCube.Init(newPos, newScale, renderer.sharedMaterial, propertyBlock);
 	}
 
 	// 1. CubeScale 업데이트
@@ -138,8 +169,13 @@ public class BlockMovement : MonoBehaviour
 	// 3. WorldOrigin 갱신
 	private void UpdateWorldOrigin(Vector3 offset)
 	{
-		UtilClass.WorldOrigin = transform.position + offset;
 		UtilClass.WorldOrigin.y = transform.position.y;
+
+		// 오프셋이 없으면 월드 오리진 갱신 안함
+		if (offset == Vector3.zero)
+			return;
+
+		UtilClass.WorldOrigin = transform.position + offset;
 	}
 
 	// 4. 블록 트랜스폼 업데이트
@@ -151,7 +187,7 @@ public class BlockMovement : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		if(GameManager.Instance.CurrentState != GameState.Playing)
+		if (GameManager.Instance.CurrentState != GameState.Playing)
 			return;
 
 		// direction 방향으로 이동
