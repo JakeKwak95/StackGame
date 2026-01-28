@@ -43,5 +43,6 @@ public class GameManager : MonoBehaviour
 		Debug.Log("Game Over! Final Score: " + Score);
 		CurrentState = GameState.GameOver;
 		InputManager.Instance.enabled = false;
+		AudioManager.Instance.PlaySFX(SFXType.GameOver);
 	}
 }

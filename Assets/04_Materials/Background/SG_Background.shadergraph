@@ -497,13 +497,13 @@
     },
     "m_Name": "Split",
     "m_DrawState": {
-        "m_Expanded": true,
+        "m_Expanded": false,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -552.7999267578125,
-            "y": 312.7999572753906,
-            "width": 120.7999267578125,
-            "height": 148.800048828125
+            "x": -432.0,
+            "y": 321.6000061035156,
+            "width": 120.79998779296875,
+            "height": 76.79998779296875
         }
     },
     "m_Slots": [
@@ -746,10 +746,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -768.0,
-            "y": 312.7999572753906,
-            "width": 145.5999755859375,
-            "height": 126.4000244140625
+            "x": -675.2000122070313,
+            "y": 321.6000061035156,
+            "width": 208.0,
+            "height": 310.3999938964844
         }
     },
     "m_Slots": [
@@ -759,7 +759,7 @@
     ],
     "synonyms": [],
     "m_Precision": 0,
-    "m_PreviewExpanded": false,
+    "m_PreviewExpanded": true,
     "m_DismissedVersion": 0,
     "m_PreviewMode": 0,
     "m_CustomColors": {

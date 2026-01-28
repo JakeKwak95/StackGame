@@ -68,7 +68,10 @@ public class BlockMovement : MonoBehaviour
 		if (UtilClass.IsPerfectAlignment(isAxisZ, missAmount))
 		{
 			missAmount = 0f;
-			ObjectPoolManager.Instance.GetPerfectEffect();
+			PerfectEffect effect = ObjectPoolManager.Instance.GetPerfectEffect();
+			effect.Init();
+
+			AudioManager.Instance.PlaySFX(SFXType.Perfect);
 		}
 
 		// 절반을 넘었는지 체크
@@ -82,10 +85,14 @@ public class BlockMovement : MonoBehaviour
 		{
 			// 게임 오버 처리
 			GameManager.Instance.GameOver();
+			AudioManager.Instance.PlaySFX(SFXType.Miss);
 			return;
 		}
 		// 점수 추가
 		GameManager.Instance.AddScore();
+
+		if(missAmount > 0f)
+			AudioManager.Instance.PlaySFX(SFXType.Hit);
 
 		// 2. Scale 오프셋 계산
 		Vector3 offsetByScale = CalculateScaleOffset(isAxisZ, missAmount, offsetSign);

@@ -29,6 +29,11 @@ public class BlockSpawner : MonoBehaviour
 		// 기존 블록 비활성화
 		if (currentBlock)
 			currentBlock.Stop();
+		else
+		{
+			// 첫 블록 생성 시 시작 효과음 재생
+			AudioManager.Instance.PlaySFX(SFXType.Start);
+		}
 
 		// 새 블록 생성 및 초기화
 		currentBlock = Instantiate(blockPrefab, transform);

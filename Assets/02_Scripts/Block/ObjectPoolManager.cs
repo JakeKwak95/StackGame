@@ -15,6 +15,7 @@ public class ObjectPoolManager : MonoBehaviour
 	[SerializeField] int poolSize = 5;
 	[SerializeField] MissedPart missedPartPrefab;
 	Queue<MissedPart> missedPartPool = new Queue<MissedPart>();
+	// 퍼펙트 이펙트 프리팹과 풀
 	[SerializeField] PerfectEffect perfectEffectPrefab;
 	Queue<PerfectEffect> effectPool = new Queue<PerfectEffect>();
 
@@ -46,6 +47,7 @@ public class ObjectPoolManager : MonoBehaviour
 				}
 				break;
 
+			// 퍼펙트 이펙트 풀 생성
 			case PoolingType.PerfectEffect:
 				for (int i = 0; i < poolSize; i++)
 				{
@@ -64,7 +66,6 @@ public class ObjectPoolManager : MonoBehaviour
 		if (missedPartPool.Count > 0)
 		{
 			MissedPart missedPart = missedPartPool.Dequeue();
-			missedPart.gameObject.SetActive(true);
 			return missedPart;
 		}
 		else
@@ -74,13 +75,12 @@ public class ObjectPoolManager : MonoBehaviour
 		}
 	}
 
+	// 퍼펙트 이펙트 가져오기
 	public PerfectEffect GetPerfectEffect()
 	{
 		if (effectPool.Count > 0)
 		{
 			PerfectEffect effect = effectPool.Dequeue();
-			effect.gameObject.SetActive(true);
-			effect.Init();
 			return effect;
 		}
 		else
@@ -95,6 +95,7 @@ public class ObjectPoolManager : MonoBehaviour
 		missedPartPool.Enqueue(missedPart);
 	}
 
+	// 퍼펙트 이펙트 반환(매개변수를 변경하여 오버로딩)
 	public void ReturnToPool(PerfectEffect effect)
 	{
 		effectPool.Enqueue(effect);

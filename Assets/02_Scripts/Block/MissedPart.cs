@@ -4,20 +4,30 @@ using UnityEngine;
 public class MissedPart : MonoBehaviour
 {
 	Renderer renderer;
+	Rigidbody rb;
 
 	public void Init(Vector3 position, Vector3 scale, Material material,MaterialPropertyBlock propertyBlock)
 	{
-		// Æ÷Áö¼Ç°ú ½ºÄÉÀÏ ¼³Á¤
-		transform.position = position;
+		// íŠ¸ëœìŠ¤í¼ ì„¤ì •
+		transform.SetPositionAndRotation(position, Quaternion.identity);
 		transform.localScale = scale;
 
-		// ·£´õ·¯°¡ ÇÑ¹ø ¼³Á¤µÇ¸é Àç»ç¿ë µÇ±â ¶§¹®¿¡ null Ã¼Å©
+		// ëœë”ëŸ¬ê°€ í•œë²ˆ ì„¤ì •ë˜ë©´ ì¬ì‚¬ìš© ë˜ê¸° ë•Œë¬¸ì— null ì²´í¬
 		if (!renderer)
 		{
 			TryGetComponent(out renderer);
 		}
-		// ¸ÓÆ¼¸®¾ó ÇÁ·ÎÆÛÆ¼ ºí·Ï ¼³Á¤
+		// ë¨¸í‹°ë¦¬ì–¼ í”„ë¡œí¼í‹° ë¸”ë¡ ì„¤ì •
 		renderer.SetPropertyBlock(propertyBlock);
+
+		// ë¦¬ì§€ë“œë°”ë”” ì´ˆê¸°í™”
+		if (!rb)
+		{
+			TryGetComponent(out rb);
+		}
+		// ì´ˆê¸° ì†ë„ ë° ê°ì†ë„ ì´ˆê¸°í™”
+		rb.linearVelocity = Vector3.zero;
+		rb.angularVelocity = Vector3.zero;
 
 		gameObject.SetActive(true);
 
